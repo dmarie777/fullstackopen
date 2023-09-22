@@ -1,33 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  function Button ({handleClick, text}) {
+    return (
+      <button onClick = {handleClick} > {text}</button>
+    )
+  }
+  const addPoint = (state, setState) => {
+    return () => setState(state + 1)
+  }
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h2>Give feedback</h2>
+        <Button handleClick={addPoint(good, setGood)} text='good' /> 
+        <Button handleClick={addPoint(neutral, setNeutral)} text='neutral' />
+        <Button handleClick={addPoint(bad, setBad)} text='bad' />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <h2>Statistics</h2>
+        <p>Good {good}</p>
+        <p>Neutral {neutral}</p>
+        <p>Bad {bad}</p>
+        <p>All {good + neutral + bad}</p>
+        <p>Average {(good + neutral + bad/3)}</p>
+        <p>positive {good/(good + neutral + bad)*100} %</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
