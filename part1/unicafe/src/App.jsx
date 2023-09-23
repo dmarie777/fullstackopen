@@ -10,18 +10,26 @@ function App() {
       <button onClick = {handleClick} > {text}</button>
     )
   }
-  const Statistic = () => {
-    return (
-      <>
-        <h2>Statistics</h2>
-        <p>Good {good}</p>
-        <p>Neutral {neutral}</p>
-        <p>Bad {bad}</p>
-        <p>All {good + neutral + bad}</p>
-        <p>Average {(good + neutral + bad/3)}</p>
-        <p>positive {good/(good + neutral + bad)*100} %</p>
-      </>
-    )
+  const Statistic = ({ good, neutral, bad }) => {
+    if (good ===0 && neutral === 0 && bad === 0) {
+      return (
+        <>
+        <p>No feedback given</p>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <h2>Statistics</h2>
+          <p>Good {good}</p>
+          <p>Neutral {neutral}</p>
+          <p>Bad {bad}</p>
+          <p>All {good + neutral + bad}</p>
+          <p>Average {(good + neutral + bad/3)}</p>
+          <p>positive {good/(good + neutral + bad)*100} %</p>
+        </>
+      )
+    }
   }
 
   const addPoint = (state, setState) => {
@@ -37,7 +45,7 @@ function App() {
         <Button handleClick={addPoint(bad, setBad)} text='bad' />
       </div>
       <div>
-        <Statistic/>
+        <Statistic good={good} neutral={neutral} bad={bad} />
       </div>
     </>
   )
