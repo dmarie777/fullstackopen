@@ -13,7 +13,8 @@ function App() {
   const StatisticLine = ({ text, value }) => {
     return (
       <>
-      <p>{text} {value}</p>
+      <td>{text}</td>
+      <td>{value}</td>
       </>
     )
   }
@@ -27,13 +28,28 @@ function App() {
     } else {
       return (
         <>
-          <h2>Statistics</h2>
-          <StatisticLine text = "Good" value = {good} />
-          <StatisticLine text = "Neutral" value = {neutral} />
-          <StatisticLine text = "Bad" value = {bad} />
-          <StatisticLine text = "All" value = {good + neutral + bad} />
-          <StatisticLine text = "Average" value = {good + neutral + bad/3} />
-          <StatisticLine text = "positive" value = {`${good/(good + neutral + bad)*100} %`} />
+        <h2>Statistics</h2>
+
+        <table>
+          <tr>
+            <StatisticLine text = "Good" value = {good} />
+          </tr>
+          <tr>
+            <StatisticLine text = "Neutral" value = {neutral} />
+          </tr>
+          <tr>
+            <StatisticLine text = "Bad" value = {bad} />
+          </tr>
+          <tr>
+            <StatisticLine text = "All" value = {good + neutral + bad} />
+          </tr>
+          <tr>
+           <StatisticLine text = "Average" value = {good + neutral + bad/3} />
+          </tr>
+          <tr>
+           <StatisticLine text = "positive" value = {`${good/(good + neutral + bad)*100} %`} />
+          </tr>
+        </table>
         </>
       )
     }
