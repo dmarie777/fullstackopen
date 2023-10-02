@@ -15,10 +15,18 @@ const Part = ({part, exercise}) => {
 
 const Content = ({parts}) => {
   return (
+    <div> 
+      {parts.map(part => <Part key={part.id} part = {part.name} exercise = {part.exercise}/> )}
+    </div>
+  )
+}
+
+const Course = ({course}) => {
+  return (
     <div>
-      <Part part = {parts[0].name} exercise = {parts[0].exercises}/>
-      <Part part = {parts[1].name} exercise = {parts[1].exercises}/>
-      <Part part = {parts[2].name} exercise = {parts[2].exercises}/>
+      <Header course = {course} />
+      <Content parts = {course.parts} />
+      <Total parts = {course.parts}/> 
     </div>
   )
 }
@@ -33,30 +41,30 @@ const Total = ({parts}) => {
 
 function App() {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamental of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
   return (
     <>
-      <div>
-        <Header course = {course} />
-        <Content parts = {course.parts} />
-        <Total parts = {course.parts}/> 
-      </div>
+      <Course course = {course} />
     </>
   )
 }
