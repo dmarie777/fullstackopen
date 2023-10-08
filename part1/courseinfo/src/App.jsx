@@ -1,71 +1,50 @@
-
-const Header = (props) => {
-  console.log(props);
-  return (
-      <h1>{props.course.name}</h1>
-  )
-}
-const Part = ({part, exercise}) => {
-  return (
-    <p>
-    Hello {part} {exercise}
-    </p>
-  )
-}
-
-const Content = ({parts}) => {
-  return (
-    <div> 
-      {parts.map(part => <Part key={part.id} part = {part.name} exercise = {part.exercise}/> )}
-    </div>
-  )
-}
-
-const Course = ({course}) => {
-  return (
-    <div>
-      <Header course = {course} />
-      <Content parts = {course.parts} />
-      <Total parts = {course.parts}/> 
-    </div>
-  )
-}
-
-const Total = ({parts}) => {
-  const total = parts.reduce((a,b) => a + b.exercises,0 )
-  return (
-    <div>
-      <p>Number of exercises {total}</p>  
-    </div>
-  )
-}
+import Course from "./components/Courses"
 
 function App() {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamental of React',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  }
+  const courses = [
+    {
+      id: 1,
+      name: 'Half Stack application development',
+      parts: [
+        {
+          name: 'Fundamental of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   return (
     <>
-      <Course course = {course} />
+      <h1>Web development curriculum</h1>
+      {courses.map( (course =><Course key={course.id} course = {course} /> ))}
     </>
   )
 }
