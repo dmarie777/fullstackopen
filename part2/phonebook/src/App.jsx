@@ -1,12 +1,11 @@
 import { useState } from 'react'
+import Form from './components/Form'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
 
 function App() {
   const [persons, setPersons] = useState([
-    { 
-      name: 'Arto Hellas',
-      number: '040-1234567',
-      id:1
-    },
+    { name: 'Arto Hellas', number: '040-1234567', id: 1 },
     { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
@@ -21,12 +20,8 @@ function App() {
       name: newName,
       number: newNumber
     }
-    let namesArray = persons.map(person => person.name)
-    if (!namesArray.includes(newName)) {
-      setPersons(persons.concat(obj))
-    } else {
-      alert(`${newName} is already added to phonebook`)
-    }
+    let namesArray = persons.map(person => person.name.toLowerCase())
+    !namesArray.includes(newName.toLowerCase())? setPersons(persons.concat(obj)) : alert(`${newName} is already added to phonebook`)
     setNewName('')
     setNewNumber('')
   }
@@ -39,33 +34,22 @@ function App() {
   const filterName = (event) => {
     setLetterToFilter(event.target.value)
   }
-  
-  const filterNames = persons.filter(person => person.name.charAt(0).toLowerCase() === letterToFilter.toLowerCase())
 
   return (
     <>
       <div>
         <h2>Phonebook</h2>
-          <div>
-            filter shown with: <input value={letterToFilter} onChange={filterName}/>
-          </div>
+          <Filter letterToFilter= {letterToFilter} filterName = {filterName} />
         <h2>add a new</h2>
-        <form onSubmit={addName}>
-          <div>
-            name: <input value={newName} onChange={changeName}/>
-          </div>
-          <div>
-          number: <input value={newNumber} onChange={changeNumber}/>
-          </div>
-          <div>
-            <button type = "submit">add</button>
-          </div>
-        </form>
+        <Form 
+          newName = {newName}
+          newNumber = {newNumber}
+          addName = {addName}
+          changeName = {changeName}
+          changeNumber = {changeNumber}
+        />
         <h2>Numbers</h2>
-        { letterToFilter? 
-          filterNames.map(person => <li key={person.name}> {person.name} {person.number }</li>):
-          persons.map(person => <li key={person.name}> {person.name} {person.number }</li>)
-        }
+        <Persons persons = {persons} letterToFilter = {letterToFilter} />
       </div>
     </>
   )
