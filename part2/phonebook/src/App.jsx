@@ -27,8 +27,10 @@ function App() {
 
     if (!namesArray.includes(newName.toLowerCase())) {
       axios
-      .post('http://localhost:3001/persons',obj ) 
-      setPersons(persons.concat(obj))
+        .post('http://localhost:3001/persons',obj ) 
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
     } else {
       alert(`${newName} is already added to phonebook`)
     } 
