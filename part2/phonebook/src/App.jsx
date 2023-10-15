@@ -3,6 +3,7 @@ import axios from 'axios'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import phoneService from './services/phone'
 
 function App() {
   const [persons, setPersons] = useState([])
@@ -11,10 +12,11 @@ function App() {
   const [letterToFilter, setLetterToFilter] = useState('')
 
   useEffect(() => {
-    axios
-        .get('http://localhost:3001/persons')
+    
+    phoneService
+        .getAll()
         .then(response => {
-          setPersons(response.data)
+          setPersons(response)
         })
   }, [])
   const addName = (event) => {
@@ -26,10 +28,10 @@ function App() {
     let namesArray = persons.map(person => person.name.toLowerCase())
 
     if (!namesArray.includes(newName.toLowerCase())) {
-      axios
-        .post('http://localhost:3001/persons',obj ) 
+      phoneService
+        .create(obj)
         .then(response => {
-          setPersons(persons.concat(response.data))
+          setPersons(persons.concat(response))
         })
     } else {
       alert(`${newName} is already added to phonebook`)
