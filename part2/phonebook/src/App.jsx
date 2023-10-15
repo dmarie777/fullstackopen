@@ -17,7 +17,6 @@ function App() {
           setPersons(response.data)
         })
   }, [])
-
   const addName = (event) => {
     event.preventDefault()
     const obj = {
@@ -25,7 +24,14 @@ function App() {
       number: newNumber
     }
     let namesArray = persons.map(person => person.name.toLowerCase())
-    !namesArray.includes(newName.toLowerCase())? setPersons(persons.concat(obj)) : alert(`${newName} is already added to phonebook`)
+
+    if (!namesArray.includes(newName.toLowerCase())) {
+      axios
+      .post('http://localhost:3001/persons',obj ) 
+      setPersons(persons.concat(obj))
+    } else {
+      alert(`${newName} is already added to phonebook`)
+    } 
     setNewName('')
     setNewNumber('')
   }
