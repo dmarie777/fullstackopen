@@ -17,4 +17,12 @@ const create = (obj) => {
             })
 }
 
-export default { getAll, create }
+const deletePerson = (id, obj) => {
+    return axios
+            .delete(`${url}/${id}`, obj) 
+            .then(response => {
+                return response
+            })
+}
+
+export default { getAll, create, deletePerson}

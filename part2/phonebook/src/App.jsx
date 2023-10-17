@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import phoneService from './services/phone'
+import axios from 'axios'
 
 function App() {
   const [persons, setPersons] = useState([])
@@ -19,6 +19,7 @@ function App() {
           setPersons(response)
         })
   }, [])
+
   const addName = (event) => {
     event.preventDefault()
     const obj = {
@@ -49,6 +50,18 @@ function App() {
     setLetterToFilter(event.target.value)
   }
 
+  const handleDeletion = ( id) => {
+    const obj = persons.find(e => e.id === id)
+    phoneService
+        .deletePerson(id, obj)
+        .then( res => {
+          confirm(`Delete ${obj.name}? `)
+          setPersons(persons.filter(e => e.id !== id))
+        })
+ }
+ 
+  const filterNames = persons.filter(person => person.name.charAt(0).toLowerCase() === letterToFilter.toLowerCase())
+
   return (
     <>
       <div>
@@ -63,7 +76,22 @@ function App() {
           changeNumber = {changeNumber}
         />
         <h2>Numbers</h2>
-        <Persons persons = {persons} letterToFilter = {letterToFilter} />
+        {
+          letterToFilter?  
+          filterNames.map(person => 
+            <Persons  
+            key={person.name} 
+            person = {person}
+            handleDeletion= {() => handleDeletion(person.id)} 
+            />)
+          : 
+          persons.map(person => 
+            <Persons  
+            key={person.name} 
+            person = {person} 
+            handleDeletion= {() => handleDeletion(person.id)}
+            />)  
+        }
       </div>
     </>
   )
