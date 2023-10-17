@@ -12,7 +12,6 @@ function App() {
   const [letterToFilter, setLetterToFilter] = useState('')
 
   useEffect(() => {
-    
     phoneService
         .getAll()
         .then(response => {
@@ -35,7 +34,13 @@ function App() {
           setPersons(persons.concat(response))
         })
     } else {
-      alert(`${newName} is already added to phonebook`)
+      let id = persons.find(person => person.name.toLowerCase() === newName.toLowerCase()).id
+      confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      phoneService
+        .update(id, obj )
+        .then(newObj => {
+          setPersons(persons.map( person => person.id === id? newObj : person))
+        })
     } 
     setNewName('')
     setNewNumber('')
