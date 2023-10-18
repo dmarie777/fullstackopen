@@ -3,13 +3,14 @@ import Form from './components/Form'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import phoneService from './services/phone'
-import axios from 'axios'
+import Notification from './components/Notification'
 
 function App() {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [letterToFilter, setLetterToFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
     phoneService
@@ -32,6 +33,10 @@ function App() {
         .create(obj)
         .then(response => {
           setPersons(persons.concat(response))
+          setSuccessMessage(`Added ${response.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
         })
     } else {
       let id = persons.find(person => person.name.toLowerCase() === newName.toLowerCase()).id
@@ -40,6 +45,10 @@ function App() {
         .update(id, obj )
         .then(newObj => {
           setPersons(persons.map( person => person.id === id? newObj : person))
+          setSuccessMessage(`Added ${newObj.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
         })
     } 
     setNewName('')
@@ -73,6 +82,7 @@ function App() {
         <h2>Phonebook</h2>
           <Filter letterToFilter= {letterToFilter} filterName = {filterName} />
         <h2>add a new</h2>
+        <Notification message = {successMessage}/>
         <Form 
           newName = {newName}
           newNumber = {newNumber}
