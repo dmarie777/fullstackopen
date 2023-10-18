@@ -11,6 +11,7 @@ function App() {
   const [newNumber, setNewNumber] = useState('')
   const [letterToFilter, setLetterToFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     phoneService
@@ -50,6 +51,9 @@ function App() {
             setSuccessMessage(null)
           }, 3000)
         })
+        .catch ((err) => {
+          setErrorMessage(`Imformation of ${newName} has already been removed from server`)
+        })
     } 
     setNewName('')
     setNewNumber('')
@@ -82,7 +86,8 @@ function App() {
         <h2>Phonebook</h2>
           <Filter letterToFilter= {letterToFilter} filterName = {filterName} />
         <h2>add a new</h2>
-        <Notification message = {successMessage}/>
+        <Notification message = {successMessage} classN = 'success'/>
+        <Notification message = {errorMessage} classN = 'error'/>
         <Form 
           newName = {newName}
           newNumber = {newNumber}
