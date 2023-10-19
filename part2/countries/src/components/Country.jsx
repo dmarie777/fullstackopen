@@ -15,7 +15,7 @@ const Country = ({name, capital, area, languages, flag}) => {
         <p>area: {area}</p>
         <h2>Languages</h2>
         { 
-           loopObj().map(e => <li>{e}</li>) 
+           loopObj().map(e => <li key = {e}>{e}</li>) 
         }
         <img src={flag} alt="flag" />
         </>

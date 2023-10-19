@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Country from './components/Country'
+import CountryList from './components/CountryList'
 import './App.css'
 
 function App() {
@@ -9,6 +10,10 @@ function App() {
   
   const getCountry = (event) => {
     setValue(event.target.value)
+  }
+
+  const showInfo = (country) => {
+    setCountries([country])
   }
 
   useEffect ( () => {
@@ -37,9 +42,14 @@ function App() {
           capital = {countries[0]['capital']} 
           area = {countries[0]['area']}
           languages = {countries[0]['languages']}
-          flag = {countries[0]['flags']['svg']}
+          flag = {countries[0]['flags']['png']}
         />
-      : countries.map( country => <p key= {country['name']['common']}>{country['name']['common']}</p>)}
+      : countries.map( country => 
+      <CountryList 
+        key= {country['name']['common']} 
+        name = {country['name']['common']}
+        showInfo={ () => showInfo(country)}
+      />)}
     </>
   )
 }
