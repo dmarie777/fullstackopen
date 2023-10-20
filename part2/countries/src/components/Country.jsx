@@ -1,13 +1,11 @@
-const Country = ({name, capital, area, languages, flag, temperature, wind, iconURL, icon}) => {
-    
+const Country = ({name, capital, area, languages, flag, temperature, wind, iconURL}) => {
     const loopObj = () => {
         let languagesArr = []
         for (let lang in languages) {
             languagesArr.push(languages[lang])
         }
         return languagesArr
-    }
-    
+    }  
     return (
         <>
         <h1>{name}</h1>
