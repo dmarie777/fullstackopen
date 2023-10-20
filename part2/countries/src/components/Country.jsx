@@ -1,4 +1,4 @@
-const Country = ({name, capital, area, languages, flag}) => {
+const Country = ({name, capital, area, languages, flag, temperature, wind, iconURL, icon}) => {
     
     const loopObj = () => {
         let languagesArr = []
@@ -18,6 +18,10 @@ const Country = ({name, capital, area, languages, flag}) => {
            loopObj().map(e => <li key = {e}>{e}</li>) 
         }
         <img src={flag} alt="flag" />
+        <h2>Weather in {name}</h2>
+        <p>Temperature {Math.round(temperature-273.15)} Celsius </p>
+        <img src={iconURL} alt="weather icon" />
+        <p>Wind {wind} m/s </p>
         </>
     )
 }

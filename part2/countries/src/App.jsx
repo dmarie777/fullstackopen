@@ -7,6 +7,7 @@ import './App.css'
 function App() {
   const [value, setValue] = useState('')
   const [countries, setCountries] = useState([])
+  const [weather, setWeather] = useState({})
   
   const getCountry = (event) => {
     setValue(event.target.value)
@@ -18,16 +19,27 @@ function App() {
 
   useEffect ( () => {
     if (value) {
-      console.log('fetching .....')
-      axios
-        .get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
-        .then( response => {
-          console.log(response.data)
-          const filterObj = response.data.filter( e => e['name']['common'].toLowerCase().startsWith(value) )
-          setCountries(filterObj)
-        })
+       
+     (axios.get(`https://studies.cs.helsinki.fi/restcountries/api/all`).then(res => res))
+         .then( response => {
+           console.log(response.data)
+           const filterObj = response.data.filter( e => e['name']['common'].toLowerCase().startsWith(value) )
+           setCountries(filterObj)
+         })
     }
+    if (countries.length === 1 ) {
+      const [lat, lng] = countries[0]['latlng']
+
+      (axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${import.meta.env.VITE_SOME_KEY}`).then(res => res))
+        
+         .then(response => {
+           console.log('response',response.data);
+           setWeather(response.data);
+         })
+   }
+
   }, [value])
+
 
   return (
     <>
@@ -36,13 +48,16 @@ function App() {
       </form>
       { (countries.length >= 10) ? 
         <p>Too many matches, specify another filter </p>
-      : (countries.length === 1) ? 
+      : (countries.length === 1  && weather['main']) ? 
         <Country 
           name = {countries[0]['name']['common']} 
           capital = {countries[0]['capital']} 
           area = {countries[0]['area']}
           languages = {countries[0]['languages']}
           flag = {countries[0]['flags']['png']}
+          temperature = {weather['main']['temp']}
+          wind = {weather['wind']['speed'] }
+          iconURL = {`https://openweathermap.org/img/wn/${weather['weather'][0]['icon']}@2x.png`}          
         />
       : countries.map( country => 
       <CountryList 
