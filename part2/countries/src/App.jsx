@@ -21,7 +21,8 @@ function App() {
      axios.get(`https://studies.cs.helsinki.fi/restcountries/api/all`)
          .then( response => {
            console.log(response.data)
-           const filterObj = response.data.filter( e => e['name']['common'].toLowerCase().startsWith(value) )
+           const valueString = value.toString().toLowerCase()
+           const filterObj = response.data.filter( e => e['name']['common'].toLowerCase().startsWith(value.toLowerCase()) )
            setCountries(filterObj)
          })
          .catch(err => {
