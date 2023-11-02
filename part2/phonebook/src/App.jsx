@@ -19,13 +19,16 @@ function App() {
         .then(response => {
           setPersons(response)
         })
+        .catch(err => {
+          console.log(err);
+        })
   }, [])
 
   const addName = (event) => {
     event.preventDefault()
     const obj = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     }
     let namesArray = persons.map(person => person.name.toLowerCase())
 
@@ -39,10 +42,16 @@ function App() {
             setSuccessMessage(null)
           }, 3000)
         })
+        .catch(error => {
+          setErrorMessage(error.response.data.error.message)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
     } else {
       let id = persons.find(person => person.name.toLowerCase() === newName.toLowerCase()).id
-      confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-      phoneService
+      if (confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        phoneService
         .update(id, obj )
         .then(newObj => {
           setPersons(persons.map( person => person.id === id? newObj : person))
@@ -54,6 +63,7 @@ function App() {
         .catch ((err) => {
           setErrorMessage(`Imformation of ${newName} has already been removed from server`)
         })
+      }
     } 
     setNewName('')
     setNewNumber('')
@@ -73,8 +83,9 @@ function App() {
     phoneService
         .deletePerson(id, obj)
         .then( res => {
-          confirm(`Delete ${obj.name}? `)
-          setPersons(persons.filter(e => e.id !== id))
+          if (confirm(`Delete ${obj.name}? `)) {
+            setPersons(persons.filter(e => e.id !== id))
+          }
         })
  }
  
